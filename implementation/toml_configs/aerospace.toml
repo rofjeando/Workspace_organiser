@@ -1,0 +1,280 @@
+# AeroSpace Configuration
+# Docs: https://nikitabobko.github.io/AeroSpace/guide
+# Commands: https://nikitabobko.github.io/AeroSpace/commands
+#
+# To apply: copy or symlink to ~/.aerospace.toml
+#   ln -sf ~/Library/CloudStorage/Dropbox/Automation/Workspace_organiser/implementation/toml_configs/aerospace.toml ~/.aerospace.toml
+
+config-version = 2
+
+# ─── Startup ──────────────────────────────────────────────────────────────────
+
+start-at-login = true
+# auto-reload-config is not available in 0.20.3-Beta (added in a later version)
+# Reload manually: aerospace reload-config, or via service mode (alt-shift-; → esc)
+after-startup-command = []
+
+# Disable macOS "Hide application" (cmd-h) — prevents accidental hides
+automatically-unhide-macos-hidden-apps = true
+
+# Mouse follows focus when monitor focus changes
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+# ─── Workspaces ───────────────────────────────────────────────────────────────
+
+# Keep these workspaces alive even when empty
+# Customise this list to your personal workflow
+persistent-workspaces = ["N", "A", "S", "B", "R", "O"]
+# N=Notes/Writing  A=Automation  S=Sessions  B=Booking  R=Reading  O=sOund
+
+# Callback when binding mode changes (useful for status bar integration)
+on-mode-changed = []
+
+# ─── Layout ───────────────────────────────────────────────────────────────────
+
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+accordion-padding = 30
+
+# 'tiles' = classic tiling | 'accordion' = stacked/tabbed
+default-root-container-layout = 'tiles'
+
+# 'auto' = wide monitor → horizontal, tall monitor → vertical
+default-root-container-orientation = 'auto'
+
+# ─── Key Mapping ──────────────────────────────────────────────────────────────
+
+[key-mapping]
+    preset = 'qwerty'
+
+# ─── Gaps ─────────────────────────────────────────────────────────────────────
+# Set inner/outer gaps in pixels. 0 = no gaps.
+# Per-monitor example: outer.top = [{ monitor.main = 16 }, 8]
+
+[gaps]
+    inner.horizontal = 6
+    inner.vertical   = 6
+    outer.left       = 6
+    outer.bottom     = 6
+    outer.top        = 6
+    outer.right      = 6
+
+# ─── Application → Workspace Assignment ───────────────────────────────────────
+# Workspaces: N=Notes  A=Automation  S=Sessions  B=Booking  R=Reading  O=sOund
+#
+# Nomadic apps (no fixed workspace — go wherever focus is):
+#   Finder, Obsidian, Quiver, IINA — use alt-shift-[letter] to move them as needed
+
+# — Finder: float globally so it overlays without disrupting tiles —
+[[on-window-detected]]
+    if.app-id = 'com.apple.finder'
+    run = 'layout floating'
+
+# — N: Notes / Writing —
+[[on-window-detected]]
+    if.app-id = 'net.sourceforge.skim-app.skim'
+    run = 'move-node-to-workspace N'
+
+[[on-window-detected]]
+    if.app-id = 'com.devon-technologies.think'
+    run = 'move-node-to-workspace N'
+
+[[on-window-detected]]
+    if.app-id = 'com.druide.Antidote'
+    run = 'move-node-to-workspace N'
+
+[[on-window-detected]]
+    if.app-id = 'abnerworks.Typora'
+    run = 'move-node-to-workspace N'
+
+# Obsidian: nomadic — no fixed workspace
+
+# — A: Automation / Code —
+[[on-window-detected]]
+    if.app-id = 'com.stairways.keyboardmaestro.editor'
+    run = 'move-node-to-workspace A'
+
+[[on-window-detected]]
+    if.app-id = 'com.github.wez.wezterm'
+    run = 'move-node-to-workspace A'
+
+[[on-window-detected]]
+    if.app-id = 'opcode.asterisk.so'
+    run = 'move-node-to-workspace A'
+
+[[on-window-detected]]
+    if.app-id = 'com.exafunction.windsurf'
+    run = 'move-node-to-workspace A'
+
+[[on-window-detected]]
+    if.app-id = 'ai.perplexity.comet'
+    run = 'move-node-to-workspace A'
+
+[[on-window-detected]]
+    if.app-id = 'com.latenightsw.ScriptDebugger8'
+    run = 'move-node-to-workspace A'
+
+# Quiver: nomadic — no fixed workspace
+
+# — S: Sessions / Presentations —
+[[on-window-detected]]
+    if.app-id = 'com.apple.iWork.Keynote'
+    run = 'move-node-to-workspace S'
+
+[[on-window-detected]]
+    if.app-id = 'com.seriflabs.affinitydesigner2'
+    run = 'move-node-to-workspace S'
+
+[[on-window-detected]]
+    if.app-id = 'us.zoom.xos'
+    run = 'move-node-to-workspace S'
+
+# — B: Booking —
+[[on-window-detected]]
+    if.app-id = 'com.apple.mail'
+    run = 'move-node-to-workspace B'
+
+[[on-window-detected]]
+    if.app-id = 'com.busymac.busycal3'
+    run = 'move-node-to-workspace B'
+
+[[on-window-detected]]
+    if.app-id = 'com.barebones.bbedit'
+    run = 'move-node-to-workspace B'
+
+# — R: Reading —
+[[on-window-detected]]
+    if.app-id = 'com.apple.Safari'
+    run = 'move-node-to-workspace R'
+
+# — O: sOund —
+[[on-window-detected]]
+    if.app-id = 'com.rogueamoeba.audiohijack'
+    run = 'move-node-to-workspace O'
+
+[[on-window-detected]]
+    if.app-id = 'com.audirvana.Audirvana-Studio'
+    run = 'move-node-to-workspace O'
+
+# Loopback: add when installed
+# [[on-window-detected]]
+#     if.app-id = 'com.rogueamoeba.loopback'
+#     run = 'move-node-to-workspace O'
+
+# ─── Monitor Assignment ────────────────────────────────────────────────────────
+# Monitors: 1=Elgato Prom.  2=Built-in Retina Display  3=LG HDR WQHD
+
+[workspace-to-monitor-force-assignment]
+    N = 'LG HDR WQHD'
+    A = 'LG HDR WQHD'
+    S = 'Elgato Prom.'   # Zoom sessions live on the Elgato
+    B = 'LG HDR WQHD'
+    R = 'LG HDR WQHD'
+    O = 'LG HDR WQHD'
+
+# ─── Main Binding Mode ────────────────────────────────────────────────────────
+
+[mode.main.binding]
+
+    # Layout toggles
+    alt-slash = 'layout tiles horizontal vertical'
+    alt-comma = 'layout accordion horizontal vertical'
+
+    # Focus (vi-style)
+    alt-h = 'focus left'
+    alt-j = 'focus down'
+    alt-k = 'focus up'
+    alt-l = 'focus right'
+
+    # Move window (vi-style)
+    alt-shift-h = 'move left'
+    alt-shift-j = 'move down'
+    alt-shift-k = 'move up'
+    alt-shift-l = 'move right'
+
+    # Resize
+    alt-minus = 'resize smart -50'
+    alt-equal = 'resize smart +50'
+
+    # Switch workspace (numbers)
+    alt-1 = 'workspace 1'
+    alt-2 = 'workspace 2'
+    alt-3 = 'workspace 3'
+    alt-4 = 'workspace 4'
+    alt-5 = 'workspace 5'
+    alt-6 = 'workspace 6'
+    alt-7 = 'workspace 7'
+    alt-8 = 'workspace 8'
+    alt-9 = 'workspace 9'
+
+    # Move window to workspace (numbers)
+    alt-shift-1 = 'move-node-to-workspace 1'
+    alt-shift-2 = 'move-node-to-workspace 2'
+    alt-shift-3 = 'move-node-to-workspace 3'
+    alt-shift-4 = 'move-node-to-workspace 4'
+    alt-shift-5 = 'move-node-to-workspace 5'
+    alt-shift-6 = 'move-node-to-workspace 6'
+    alt-shift-7 = 'move-node-to-workspace 7'
+    alt-shift-8 = 'move-node-to-workspace 8'
+    alt-shift-9 = 'move-node-to-workspace 9'
+
+    # Switch workspace (letters — add/remove as needed)
+    alt-a = 'workspace A'
+    alt-b = 'workspace B'
+    alt-c = 'workspace C'
+    alt-d = 'workspace D'
+    alt-e = 'workspace E'
+    alt-f = 'macos-native-fullscreen off'  # repurposed: exit native fullscreen
+    alt-g = 'workspace G'
+    alt-m = 'workspace M'
+    alt-n = 'workspace N'
+    alt-o = 'workspace O'
+    alt-p = 'workspace P'
+    alt-r = 'workspace R'
+    alt-s = 'workspace S'
+    alt-t = 'workspace T'
+    alt-u = 'workspace U'
+    alt-v = 'workspace V'
+    alt-w = 'workspace W'
+
+    # Move window to workspace (letters)
+    alt-shift-a = 'move-node-to-workspace A'
+    alt-shift-b = 'move-node-to-workspace B'
+    alt-shift-c = 'move-node-to-workspace C'
+    alt-shift-d = 'move-node-to-workspace D'
+    alt-shift-e = 'move-node-to-workspace E'
+    alt-shift-f = 'move-node-to-workspace F'
+    alt-shift-g = 'move-node-to-workspace G'
+    alt-shift-m = 'move-node-to-workspace M'
+    alt-shift-n = 'move-node-to-workspace N'
+    alt-shift-o = 'move-node-to-workspace O'
+    alt-shift-p = 'move-node-to-workspace P'
+    alt-shift-r = 'move-node-to-workspace R'
+    alt-shift-s = 'move-node-to-workspace S'
+    alt-shift-t = 'move-node-to-workspace T'
+    alt-shift-u = 'move-node-to-workspace U'
+    alt-shift-v = 'move-node-to-workspace V'
+    alt-shift-w = 'move-node-to-workspace W'
+
+    # Workspace navigation
+    alt-tab       = 'workspace-back-and-forth'
+    alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+
+    # Enter service mode
+    alt-shift-semicolon = 'mode service'
+
+# ─── Service Binding Mode ─────────────────────────────────────────────────────
+# Enter with: alt-shift-;   Exit with: esc
+
+[mode.service.binding]
+    esc        = ['reload-config', 'mode main']        # Reload config + exit
+    r          = ['flatten-workspace-tree', 'mode main'] # Reset layout
+    f          = ['layout floating tiling', 'mode main'] # Toggle float/tile
+    backspace  = ['close-all-windows-but-current', 'mode main']
+
+    # Join windows (merge into parent container)
+    alt-shift-h = ['join-with left',  'mode main']
+    alt-shift-j = ['join-with down',  'mode main']
+    alt-shift-k = ['join-with up',    'mode main']
+    alt-shift-l = ['join-with right', 'mode main']
