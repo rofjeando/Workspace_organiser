@@ -24,8 +24,8 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
 # Keep these workspaces alive even when empty
 # Customise this list to your personal workflow
-persistent-workspaces = ["N", "A", "S", "B", "R", "O"]
-# N=Notes/Writing  A=Automation  S=Sessions  B=Booking  R=Reading  O=sOund
+persistent-workspaces = ["N", "A", "P", "S", "B", "R", "O", "D"]
+# N=Notes  A=Automation  P=Presentation  S=Session-zoom  B=Booking  R=Reading  O=sOund  D=Desktop(MacBook)
 
 # Callback when binding mode changes (useful for status bar integration)
 on-mode-changed = []
@@ -46,7 +46,7 @@ default-root-container-orientation = 'auto'
 # ─── Key Mapping ──────────────────────────────────────────────────────────────
 
 [key-mapping]
-    preset = 'qwerty'
+    preset = 'qwerty'  # AeroSpace has no azerty preset — AZERTY compensation is in the bindings below
 
 # ─── Gaps ─────────────────────────────────────────────────────────────────────
 # Set inner/outer gaps in pixels. 0 = no gaps.
@@ -117,15 +117,16 @@ default-root-container-orientation = 'auto'
 
 # Quiver: nomadic — no fixed workspace
 
-# — S: Sessions / Presentations —
+# — P: Presentation (LG screen — Keynote + Affinity) —
 [[on-window-detected]]
     if.app-id = 'com.apple.iWork.Keynote'
-    run = 'move-node-to-workspace S'
+    run = 'move-node-to-workspace P'
 
 [[on-window-detected]]
     if.app-id = 'com.seriflabs.affinitydesigner2'
-    run = 'move-node-to-workspace S'
+    run = 'move-node-to-workspace P'
 
+# — S: Session-zoom (Elgato screen — Zoom only) —
 [[on-window-detected]]
     if.app-id = 'us.zoom.xos'
     run = 'move-node-to-workspace S'
@@ -168,10 +169,12 @@ default-root-container-orientation = 'auto'
 [workspace-to-monitor-force-assignment]
     N = 'LG HDR WQHD'
     A = 'LG HDR WQHD'
-    S = 'Elgato Prom.'   # Zoom sessions live on the Elgato
+    P = 'LG HDR WQHD'              # Presentation: Keynote + Affinity Designer
+    S = 'Elgato Prom.'             # Session-zoom: Zoom only, visible to students
     B = 'LG HDR WQHD'
     R = 'LG HDR WQHD'
     O = 'LG HDR WQHD'
+    D = 'Built-in Retina Display'  # MacBook screen
 
 # ─── Main Binding Mode ────────────────────────────────────────────────────────
 
@@ -219,15 +222,28 @@ default-root-container-orientation = 'auto'
     alt-shift-8 = 'move-node-to-workspace 8'
     alt-shift-9 = 'move-node-to-workspace 9'
 
-    # Switch workspace (letters — add/remove as needed)
-    alt-a = 'workspace A'
+    # ── AZERTY keyboard note ──────────────────────────────────────────────────
+    # AeroSpace uses physical key positions (qwerty preset).
+    # On AZERTY, some keys are at different physical positions than QWERTY:
+    #
+    #   Key in config │ Key to press on AZERTY keyboard
+    #   ──────────────┼────────────────────────────────
+    #   alt-q         │ press key labeled  'a'   (workspace A — Automation)
+    #   alt-z         │ press key labeled  'w'   (workspace W, if used)
+    #   alt-semicolon │ press key labeled  'm'   (service mode uses shift too)
+    #
+    # All other letters (b,c,d,e,f,g,h,i,j,k,l,n,o,p,r,s,t,u,v,x,y) are at
+    # the same physical positions on both keyboards.
+    # ─────────────────────────────────────────────────────────────────────────
+
+    # Switch workspace
+    alt-q = 'workspace A'   # AZERTY: press key labeled 'a'
     alt-b = 'workspace B'
     alt-c = 'workspace C'
     alt-d = 'workspace D'
     alt-e = 'workspace E'
-    alt-f = 'macos-native-fullscreen off'  # repurposed: exit native fullscreen
+    alt-f = 'macos-native-fullscreen off'  # exit native fullscreen
     alt-g = 'workspace G'
-    alt-m = 'workspace M'
     alt-n = 'workspace N'
     alt-o = 'workspace O'
     alt-p = 'workspace P'
@@ -236,17 +252,14 @@ default-root-container-orientation = 'auto'
     alt-t = 'workspace T'
     alt-u = 'workspace U'
     alt-v = 'workspace V'
-    alt-w = 'workspace W'
 
-    # Move window to workspace (letters)
-    alt-shift-a = 'move-node-to-workspace A'
+    # Move window to workspace
+    alt-shift-q = 'move-node-to-workspace A'   # AZERTY: press key labeled 'a'
     alt-shift-b = 'move-node-to-workspace B'
     alt-shift-c = 'move-node-to-workspace C'
     alt-shift-d = 'move-node-to-workspace D'
     alt-shift-e = 'move-node-to-workspace E'
-    alt-shift-f = 'move-node-to-workspace F'
     alt-shift-g = 'move-node-to-workspace G'
-    alt-shift-m = 'move-node-to-workspace M'
     alt-shift-n = 'move-node-to-workspace N'
     alt-shift-o = 'move-node-to-workspace O'
     alt-shift-p = 'move-node-to-workspace P'
@@ -255,13 +268,13 @@ default-root-container-orientation = 'auto'
     alt-shift-t = 'move-node-to-workspace T'
     alt-shift-u = 'move-node-to-workspace U'
     alt-shift-v = 'move-node-to-workspace V'
-    alt-shift-w = 'move-node-to-workspace W'
 
     # Workspace navigation
     alt-tab       = 'workspace-back-and-forth'
     alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 
     # Enter service mode
+    # AZERTY: press alt-shift + key labeled 'm' (physical semicolon position)
     alt-shift-semicolon = 'mode service'
 
 # ─── Service Binding Mode ─────────────────────────────────────────────────────
