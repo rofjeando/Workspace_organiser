@@ -12,3 +12,10 @@ Old size: stat: /Users/tsukadjed/Library/CloudStorage/Dropbox/Automation/Workspa
 0 bytes
 New size: 19677 bytes
 ——————————————
+ 20261002_13:34 	/Users/tsukadjed/Library/CloudStorage/Dropbox/Automation/Workspace_organiser/implementation/
+WORKSP_Move Window to workspace v1.1. | 1FEFBA96-FE08-43C6-84A0-8352B99DB063 |groupUUID: 3B0B9AEB-510C-4A2D-8939-9B794FFAD7FBgroupName: __ [WORKSP] |.
+✅ Exported: WORKSP_Move Window to workspace v1.1.kmmacros
+Old size: stat: /Users/tsukadjed/Library/CloudStorage/Dropbox/Automation/Workspace_organiser/implementation//WORKSP_Move Window to workspace v1.1.kmmacros: stat: No such file or directory
+0 bytes
+New size: 13168 bytes
+——————————————
