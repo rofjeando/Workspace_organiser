@@ -1,0 +1,781 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Actions</key>
+	<array>
+		<dict>
+			<key>ActionUID</key>
+			<integer>400015402</integer>
+			<key>DisplayKind</key>
+			<string>Window</string>
+			<key>HonourFailureSettings</key>
+			<true/>
+			<key>IncludeStdErr</key>
+			<false/>
+			<key>IncludedVariables</key>
+			<array>
+				<string>9999</string>
+			</array>
+			<key>IsActive</key>
+			<false/>
+			<key>IsDisclosed</key>
+			<false/>
+			<key>MacroActionType</key>
+			<string>ExecuteShellScript</string>
+			<key>Path</key>
+			<string></string>
+			<key>Source</key>
+			<string>Nothing</string>
+			<key>Text</key>
+			<string>A=/opt/homebrew/bin/aerospace
+
+echo "WIN_ID=&lt;$($A list-windows --focused --format '%{window-id}' 2&gt;&amp;1)&gt;"
+echo "SRC_WS=&lt;$($A list-workspaces --focused --format '%{workspace}' 2&gt;&amp;1)&gt;"
+</string>
+			<key>TimeOutAbortsMacro</key>
+			<true/>
+			<key>TrimResults</key>
+			<true/>
+			<key>TrimResultsNew</key>
+			<true/>
+			<key>UseText</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>ActionUID</key>
+			<integer>400015487</integer>
+			<key>DisplayKind</key>
+			<string>Window</string>
+			<key>HonourFailureSettings</key>
+			<true/>
+			<key>IncludeStdErr</key>
+			<false/>
+			<key>IncludedVariables</key>
+			<array>
+				<string>9999</string>
+			</array>
+			<key>IsActive</key>
+			<false/>
+			<key>IsDisclosed</key>
+			<false/>
+			<key>MacroActionType</key>
+			<string>ExecuteShellScript</string>
+			<key>Path</key>
+			<string></string>
+			<key>Source</key>
+			<string>Nothing</string>
+			<key>Text</key>
+			<string>A=/opt/homebrew/bin/aerospace
+
+WIN_ID="$($A list-windows --focused --format '%{window-id}' 2&gt;/dev/null)"
+SRC_WS="$($A list-workspaces --focused --format '%{workspace}' 2&gt;/dev/null)"
+DEST_WS="N"
+
+echo "moving window $WIN_ID from $SRC_WS to $DEST_WS"
+"$A" move-node-to-workspace --window-id "$WIN_ID" "$DEST_WS"
+echo "done"
+e"
+</string>
+			<key>TimeOutAbortsMacro</key>
+			<true/>
+			<key>TrimResults</key>
+			<true/>
+			<key>TrimResultsNew</key>
+			<true/>
+			<key>UseText</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>ActionUID</key>
+			<integer>400015572</integer>
+			<key>DisplayKind</key>
+			<string>Window</string>
+			<key>HonourFailureSettings</key>
+			<true/>
+			<key>IncludeStdErr</key>
+			<false/>
+			<key>IncludedVariables</key>
+			<array>
+				<string>9999</string>
+			</array>
+			<key>IsActive</key>
+			<false/>
+			<key>IsDisclosed</key>
+			<false/>
+			<key>MacroActionType</key>
+			<string>ExecuteShellScript</string>
+			<key>Path</key>
+			<string></string>
+			<key>Source</key>
+			<string>Nothing</string>
+			<key>Text</key>
+			<string>#!/bin/zsh
+
+A=/opt/homebrew/bin/aerospace
+DEST_WS="${1:-}"
+
+if [[ -z "$DEST_WS" ]]; then
+  echo "Usage: $0 &lt;destination-workspace&gt;" &gt;&amp;2
+  exit 1
+fi
+
+WIN_ID="$($A list-windows --focused --format '%{window-id}' 2&gt;/dev/null)"
+SRC_WS="$($A list-workspaces --focused --format '%{workspace}' 2&gt;/dev/null)"
+
+if [[ -z "$WIN_ID" || -z "$SRC_WS" ]]; then
+  osascript -e 'display dialog "AeroSpace did not report a focused window/workspace." buttons {"OK"} default button "OK"'
+  exit 1
+fi
+
+CHOICE=$(osascript &lt;&lt;APPLESCRIPT
+set theChoice to choose from list {"Move and follow", "Move and stay"} with title "AeroSpace move" with prompt "Move window " &amp; "$WIN_ID" &amp; " from workspace " &amp; "$SRC_WS" &amp; " to workspace " &amp; "$DEST_WS" &amp; "?" default items {"Move and stay"}
+if theChoice is false then return ""
+return item 1 of theChoice
+APPLESCRIPT
+)
+
+if [[ -z "$CHOICE" ]]; then
+  exit 0
+fi
+
+echo "Window ID: $WIN_ID"
+echo "Source workspace: $SRC_WS"
+echo "Destination workspace: $DEST_WS"
+echo "Choice: $CHOICE"
+
+if [[ "$CHOICE" == "Move and follow" ]]; then
+  "$A" move-node-to-workspace --window-id "$WIN_ID" --focus-follows-window "$DEST_WS"
+else
+  "$A" move-node-to-workspace --window-id "$WIN_ID" "$DEST_WS"
+  "$A" workspace "$SRC_WS"
+fi
+</string>
+			<key>TimeOutAbortsMacro</key>
+			<true/>
+			<key>TrimResults</key>
+			<true/>
+			<key>TrimResultsNew</key>
+			<true/>
+			<key>UseText</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>ActionColor</key>
+			<string>Yellow</string>
+			<key>ActionUID</key>
+			<integer>400016854</integer>
+			<key>MacroActionType</key>
+			<string>SetVariableToText</string>
+			<key>Text</key>
+			<string></string>
+			<key>Variable</key>
+			<string>WORKSP_windowTitle</string>
+		</dict>
+		<dict>
+			<key>ActionColor</key>
+			<string>Yellow</string>
+			<key>ActionUID</key>
+			<integer>400016903</integer>
+			<key>MacroActionType</key>
+			<string>SetVariableToText</string>
+			<key>Text</key>
+			<string></string>
+			<key>Variable</key>
+			<string>WORKSP_windowID</string>
+		</dict>
+		<dict>
+			<key>ActionUID</key>
+			<integer>400015755</integer>
+			<key>MacroActionType</key>
+			<string>SetVariableToText</string>
+			<key>Text</key>
+			<string>%TriggerValue%</string>
+			<key>Variable</key>
+			<string>WORKSP_trigger</string>
+		</dict>
+		<dict>
+			<key>ActionUID</key>
+			<integer>400015912</integer>
+			<key>CaseEntries</key>
+			<array>
+				<dict>
+					<key>Actions</key>
+					<array>
+						<dict>
+							<key>ActionUID</key>
+							<integer>400015694</integer>
+							<key>MacroActionType</key>
+							<string>SetVariableToText</string>
+							<key>Text</key>
+							<string>A</string>
+							<key>Variable</key>
+							<string>WORKSP_destWorkspace</string>
+						</dict>
+					</array>
+					<key>ConditionType</key>
+					<string>Contains</string>
+					<key>TestValue</key>
+					<string>A</string>
+				</dict>
+				<dict>
+					<key>Actions</key>
+					<array>
+						<dict>
+							<key>ActionUID</key>
+							<integer>400015913</integer>
+							<key>MacroActionType</key>
+							<string>SetVariableToText</string>
+							<key>Text</key>
+							<string>B</string>
+							<key>Variable</key>
+							<string>WORKSP_destWorkspace</string>
+						</dict>
+					</array>
+					<key>ConditionType</key>
+					<string>Contains</string>
+					<key>TestValue</key>
+					<string>B</string>
+				</dict>
+				<dict>
+					<key>Actions</key>
+					<array>
+						<dict>
+							<key>ActionUID</key>
+							<integer>400015962</integer>
+							<key>MacroActionType</key>
+							<string>SetVariableToText</string>
+							<key>Text</key>
+							<string>D</string>
+							<key>Variable</key>
+							<string>WORKSP_destWorkspace</string>
+						</dict>
+					</array>
+					<key>ConditionType</key>
+					<string>Contains</string>
+					<key>TestValue</key>
+					<string>D</string>
+				</dict>
+				<dict>
+					<key>Actions</key>
+					<array>
+						<dict>
+							<key>ActionUID</key>
+							<integer>400015963</integer>
+							<key>MacroActionType</key>
+							<string>SetVariableToText</string>
+							<key>Text</key>
+							<string>K</string>
+							<key>Variable</key>
+							<string>WORKSP_destWorkspace</string>
+						</dict>
+					</array>
+					<key>ConditionType</key>
+					<string>Contains</string>
+					<key>TestValue</key>
+					<string>K</string>
+				</dict>
+				<dict>
+					<key>Actions</key>
+					<array>
+						<dict>
+							<key>ActionUID</key>
+							<integer>400015964</integer>
+							<key>MacroActionType</key>
+							<string>SetVariableToText</string>
+							<key>Text</key>
+							<string>N</string>
+							<key>Variable</key>
+							<string>WORKSP_destWorkspace</string>
+						</dict>
+					</array>
+					<key>ConditionType</key>
+					<string>Contains</string>
+					<key>TestValue</key>
+					<string>N</string>
+				</dict>
+				<dict>
+					<key>Actions</key>
+					<array>
+						<dict>
+							<key>ActionUID</key>
+							<integer>400015965</integer>
+							<key>MacroActionType</key>
+							<string>SetVariableToText</string>
+							<key>Text</key>
+							<string>O</string>
+							<key>Variable</key>
+							<string>WORKSP_destWorkspace</string>
+						</dict>
+					</array>
+					<key>ConditionType</key>
+					<string>Contains</string>
+					<key>TestValue</key>
+					<string>O</string>
+				</dict>
+				<dict>
+					<key>Actions</key>
+					<array>
+						<dict>
+							<key>ActionUID</key>
+							<integer>400015966</integer>
+							<key>MacroActionType</key>
+							<string>SetVariableToText</string>
+							<key>Text</key>
+							<string>P</string>
+							<key>Variable</key>
+							<string>WORKSP_destWorkspace</string>
+						</dict>
+					</array>
+					<key>ConditionType</key>
+					<string>Contains</string>
+					<key>TestValue</key>
+					<string>P</string>
+				</dict>
+				<dict>
+					<key>Actions</key>
+					<array>
+						<dict>
+							<key>ActionUID</key>
+							<integer>400015967</integer>
+							<key>MacroActionType</key>
+							<string>SetVariableToText</string>
+							<key>Text</key>
+							<string>R</string>
+							<key>Variable</key>
+							<string>WORKSP_destWorkspace</string>
+						</dict>
+					</array>
+					<key>ConditionType</key>
+					<string>Contains</string>
+					<key>TestValue</key>
+					<string>R</string>
+				</dict>
+				<dict>
+					<key>Actions</key>
+					<array>
+						<dict>
+							<key>ActionUID</key>
+							<integer>400015968</integer>
+							<key>MacroActionType</key>
+							<string>SetVariableToText</string>
+							<key>Text</key>
+							<string>S</string>
+							<key>Variable</key>
+							<string>WORKSP_destWorkspace</string>
+						</dict>
+					</array>
+					<key>ConditionType</key>
+					<string>Contains</string>
+					<key>TestValue</key>
+					<string>S</string>
+				</dict>
+				<dict>
+					<key>Actions</key>
+					<array>
+						<dict>
+							<key>ActionUID</key>
+							<integer>400015969</integer>
+							<key>MacroActionType</key>
+							<string>SetVariableToText</string>
+							<key>Text</key>
+							<string>U</string>
+							<key>Variable</key>
+							<string>WORKSP_destWorkspace</string>
+						</dict>
+					</array>
+					<key>ConditionType</key>
+					<string>Contains</string>
+					<key>TestValue</key>
+					<string>U</string>
+				</dict>
+			</array>
+			<key>MacroActionType</key>
+			<string>Switch</string>
+			<key>Source</key>
+			<string>Variable</string>
+			<key>Variable</key>
+			<string>WORKSP_trigger</string>
+		</dict>
+		<dict>
+			<key>ActionUID</key>
+			<integer>400015633</integer>
+			<key>DisplayKind</key>
+			<string>Window</string>
+			<key>HonourFailureSettings</key>
+			<true/>
+			<key>IncludeStdErr</key>
+			<false/>
+			<key>IncludedVariables</key>
+			<array>
+				<string>9999</string>
+			</array>
+			<key>MacroActionType</key>
+			<string>ExecuteShellScript</string>
+			<key>Path</key>
+			<string></string>
+			<key>Source</key>
+			<string>Nothing</string>
+			<key>Text</key>
+			<string>#!/bin/zsh
+
+A=/opt/homebrew/bin/aerospace
+DEST_WS="${KMVAR_WORKSP_destWorkspace:-}"
+
+[[ -z "$DEST_WS" ]] &amp;&amp; exit 1
+
+WIN_ID="$($A list-windows --focused --format '%{window-id}' 2&gt;/dev/null)"
+SRC_WS="$($A list-workspaces --focused --format '%{workspace}' 2&gt;/dev/null)"
+APP_NAME="$($A list-windows --focused --format '%{app-name}' 2&gt;/dev/null)"
+WIN_TITLE="$($A list-windows --focused --format '%{window-title}' 2&gt;/dev/null)"
+
+[[ -z "$WIN_ID" || -z "$SRC_WS" ]] &amp;&amp; exit 1
+
+SHORT_TITLE="$WIN_TITLE"
+SHORT_TITLE="${SHORT_TITLE//$'\n'/ }"
+SHORT_TITLE="${SHORT_TITLE//$'\r'/ }"
+
+if [[ -z "$SHORT_TITLE" ]]; then
+  SHORT_TITLE="$APP_NAME"
+fi
+
+MAXLEN=42
+if (( ${#SHORT_TITLE} &gt; MAXLEN )); then
+  SHORT_TITLE="${SHORT_TITLE[1,39]}..."
+fi
+
+/usr/bin/osascript &lt;&lt;APPLESCRIPT
+tell application "Keyboard Maestro Engine"
+  setvariable "WORKSP_windowID" to "$WIN_ID"
+  setvariable "WORKSP_sourceWorkspace" to "$SRC_WS"
+  setvariable "WORKSP_windowTitle" to "$APP_NAME | $SHORT_TITLE"
+end tell
+APPLESCRIPT
+
+</string>
+			<key>TimeOutAbortsMacro</key>
+			<true/>
+			<key>TrimResults</key>
+			<true/>
+			<key>TrimResultsNew</key>
+			<true/>
+			<key>UseText</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>ActionUID</key>
+			<integer>400016503</integer>
+			<key>Buttons</key>
+			<array>
+				<dict>
+					<key>Button</key>
+					<string>Stay /S</string>
+					<key>Cancel</key>
+					<false/>
+				</dict>
+				<dict>
+					<key>Button</key>
+					<string>Follow/F</string>
+					<key>Cancel</key>
+					<false/>
+				</dict>
+				<dict>
+					<key>Button</key>
+					<string>Cancel/.</string>
+					<key>Cancel</key>
+					<true/>
+				</dict>
+			</array>
+			<key>MacroActionType</key>
+			<string>PromptForUserInput</string>
+			<key>Prompt</key>
+			<string>Move “%Variable%WORKSP_windowTitle%”
+from workspace %Variable%WORKSP_sourceWorkspace%
+to workspace %Variable%WORKSP_destWorkspace% ?</string>
+			<key>TimeOutAbortsMacro</key>
+			<true/>
+			<key>Title</key>
+			<string>Untitled</string>
+			<key>Variables</key>
+			<array/>
+		</dict>
+		<dict>
+			<key>ActionUID</key>
+			<integer>400017049</integer>
+			<key>MacroActionType</key>
+			<string>SetVariableToText</string>
+			<key>Text</key>
+			<string>%PromptButton%</string>
+			<key>Variable</key>
+			<string>WORKSP_moveMode</string>
+		</dict>
+		<dict>
+			<key>Action</key>
+			<string>DisplayWindow</string>
+			<key>ActionUID</key>
+			<integer>400017182</integer>
+			<key>IsActive</key>
+			<false/>
+			<key>MacroActionType</key>
+			<string>InsertText</string>
+			<key>StyledText</key>
+			<data>
+			cnRmZAAAAAADAAAAAgAAAAcAAABUWFQucnRmAQAAAC48AgAAKwAA
+			AAEAAAA0AgAAe1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcY29jb2Fy
+			dGYyOTA3Clxjb2NvYXRleHRzY2FsaW5nMFxjb2NvYXBsYXRmb3Jt
+			MHtcZm9udHRibFxmMFxmc3dpc3NcZmNoYXJzZXQwIEhlbHZldGlj
+			YTt9CntcY29sb3J0Ymw7XHJlZDI1NVxncmVlbjI1NVxibHVlMjU1
+			O1xyZWQwXGdyZWVuMFxibHVlMDt9CntcKlxleHBhbmRlZGNvbG9y
+			dGJsOztcY3NzcmdiXGMwXGMwXGMwXGM4NDcwNlxjbmFtZSBjb250
+			cm9sVGV4dENvbG9yO30KXHBhcmRcdHg1NjBcdHgxMTIwXHR4MTY4
+			MFx0eDIyNDBcdHgyODAwXHR4MzM2MFx0eDM5MjBcdHg0NDgwXHR4
+			NTA0MFx0eDU2MDBcdHg2MTYwXHR4NjcyMFxwYXJkaXJuYXR1cmFs
+			XHBhcnRpZ2h0ZW5mYWN0b3IwCgpcZjBcZnMzMFxmc21pbGxpMTUz
+			NjQgXGNmMiBcJzk1CVx1YzBcdTgyMDEgQlVUVE9OPSVWYXJpYWJs
+			ZSVXT1JLU1BfbW92ZU1vZGUlXHU4MjAxIFwKXCc5NQlcdWMwXHU4
+			MjAxIERFU1Q9JVZhcmlhYmxlJVdPUktTUF9kZXN0V29ya3NwYWNl
+			JVx1ODIwMSBcClwnOTUJXHVjMFx1ODIwMSBXSU5JRD0lVmFyaWFi
+			bGUlV09SS1NQX3dpbmRvd0lEJVx1ODIwMSB9AQAAACMAAAABAAAA
+			BwAAAFRYVC5ydGYQAAAAl3i/arYBAAAAAAAAAAAAAA==
+			</data>
+			<key>Text</key>
+			<string>•	 BUTTON=%Variable%WORKSP_moveMode% 
+•	 DEST=%Variable%WORKSP_destWorkspace% 
+•	 WINID=%Variable%WORKSP_windowID% </string>
+		</dict>
+		<dict>
+			<key>Action</key>
+			<string>TrimWhitespace</string>
+			<key>ActionUID</key>
+			<integer>400017363</integer>
+			<key>MacroActionType</key>
+			<string>Filter</string>
+			<key>Source</key>
+			<string>Variable</string>
+			<key>Variable</key>
+			<string>WORKSP_moveMode</string>
+		</dict>
+		<dict>
+			<key>Action</key>
+			<string>TrimWhitespace</string>
+			<key>ActionUID</key>
+			<integer>400017388</integer>
+			<key>MacroActionType</key>
+			<string>Filter</string>
+			<key>Source</key>
+			<string>Variable</string>
+			<key>Variable</key>
+			<string>WORKSP_destWorkspace</string>
+		</dict>
+		<dict>
+			<key>ActionUID</key>
+			<integer>400016756</integer>
+			<key>Conditions</key>
+			<dict>
+				<key>ConditionList</key>
+				<array>
+					<dict>
+						<key>ConditionType</key>
+						<string>Text</string>
+						<key>Text</key>
+						<string>%PromptButton%</string>
+						<key>TextConditionType</key>
+						<string>Contains</string>
+						<key>TextValue</key>
+						<string></string>
+					</dict>
+				</array>
+				<key>ConditionListMatch</key>
+				<string>All</string>
+			</dict>
+			<key>ElseActions</key>
+			<array/>
+			<key>IsActive</key>
+			<false/>
+			<key>IsDisclosed</key>
+			<false/>
+			<key>MacroActionType</key>
+			<string>IfThenElse</string>
+			<key>ThenActions</key>
+			<array/>
+			<key>TimeOutAbortsMacro</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>ActionUID</key>
+			<integer>400016793</integer>
+			<key>DisplayKind</key>
+			<string>None</string>
+			<key>HonourFailureSettings</key>
+			<true/>
+			<key>IncludeStdErr</key>
+			<false/>
+			<key>IncludedVariables</key>
+			<array>
+				<string>9999</string>
+			</array>
+			<key>MacroActionType</key>
+			<string>ExecuteShellScript</string>
+			<key>Path</key>
+			<string></string>
+			<key>Source</key>
+			<string>Nothing</string>
+			<key>Text</key>
+			<string>#!/bin/zsh
+
+A=/opt/homebrew/bin/aerospace
+DEST_WS="${KMVAR_WORKSP_destWorkspace:-}"
+WIN_ID="${KMVAR_WORKSP_windowID:-}"
+BUTTON="${KMVAR_WORKSP_moveMode:-}"
+
+trim() {
+  local s="$1"
+  s="${${s##[[:space:]]#}%%[[:space:]]#}"
+  print -r -- "$s"
+}
+
+DEST_WS="$(trim "$DEST_WS")"
+BUTTON="$(trim "$BUTTON")"
+
+[[ -z "$DEST_WS" || -z "$WIN_ID" || -z "$BUTTON" ]] &amp;&amp; {
+  echo "Missing variable(s)"
+  echo "BUTTON=&lt;$BUTTON&gt;"
+  echo "DEST_WS=&lt;$DEST_WS&gt;"
+  echo "WIN_ID=&lt;$WIN_ID&gt;"
+  exit 1
+}
+
+if [[ "$BUTTON" == "Follow" ]]; then
+  exec "$A" move-node-to-workspace --focus-follows-window --window-id "$WIN_ID" -- "$DEST_WS"
+elif [[ "$BUTTON" == "Stay" ]]; then
+  exec "$A" move-node-to-workspace --window-id "$WIN_ID" -- "$DEST_WS"
+else
+  echo "Unknown button: &lt;$BUTTON&gt;"
+  exit 1
+fi
+</string>
+			<key>TimeOutAbortsMacro</key>
+			<true/>
+			<key>TrimResults</key>
+			<true/>
+			<key>TrimResultsNew</key>
+			<true/>
+			<key>UseText</key>
+			<true/>
+		</dict>
+	</array>
+	<key>CreationDate</key>
+	<real>812618851.67147994</real>
+	<key>CustomIconData</key>
+	<string>KMEP-GenericApplication-/Applications/AeroSpace.app</string>
+	<key>ModificationDate</key>
+	<real>812626417.11324203</real>
+	<key>Name</key>
+	<string>WORKSP_Move Window to workspace</string>
+	<key>Triggers</key>
+	<array>
+		<dict>
+			<key>FireType</key>
+			<string>Pressed</string>
+			<key>KeyCode</key>
+			<integer>32</integer>
+			<key>MacroTriggerType</key>
+			<string>HotKey</string>
+			<key>Modifiers</key>
+			<integer>2560</integer>
+		</dict>
+		<dict>
+			<key>FireType</key>
+			<string>Pressed</string>
+			<key>KeyCode</key>
+			<integer>12</integer>
+			<key>MacroTriggerType</key>
+			<string>HotKey</string>
+			<key>Modifiers</key>
+			<integer>2560</integer>
+		</dict>
+		<dict>
+			<key>FireType</key>
+			<string>Pressed</string>
+			<key>KeyCode</key>
+			<integer>11</integer>
+			<key>MacroTriggerType</key>
+			<string>HotKey</string>
+			<key>Modifiers</key>
+			<integer>2560</integer>
+		</dict>
+		<dict>
+			<key>FireType</key>
+			<string>Pressed</string>
+			<key>KeyCode</key>
+			<integer>2</integer>
+			<key>MacroTriggerType</key>
+			<string>HotKey</string>
+			<key>Modifiers</key>
+			<integer>2560</integer>
+		</dict>
+		<dict>
+			<key>FireType</key>
+			<string>Pressed</string>
+			<key>KeyCode</key>
+			<integer>40</integer>
+			<key>MacroTriggerType</key>
+			<string>HotKey</string>
+			<key>Modifiers</key>
+			<integer>2560</integer>
+		</dict>
+		<dict>
+			<key>FireType</key>
+			<string>Pressed</string>
+			<key>KeyCode</key>
+			<integer>45</integer>
+			<key>MacroTriggerType</key>
+			<string>HotKey</string>
+			<key>Modifiers</key>
+			<integer>2560</integer>
+		</dict>
+		<dict>
+			<key>FireType</key>
+			<string>Pressed</string>
+			<key>KeyCode</key>
+			<integer>31</integer>
+			<key>MacroTriggerType</key>
+			<string>HotKey</string>
+			<key>Modifiers</key>
+			<integer>2560</integer>
+		</dict>
+		<dict>
+			<key>FireType</key>
+			<string>Pressed</string>
+			<key>KeyCode</key>
+			<integer>35</integer>
+			<key>MacroTriggerType</key>
+			<string>HotKey</string>
+			<key>Modifiers</key>
+			<integer>2560</integer>
+		</dict>
+		<dict>
+			<key>FireType</key>
+			<string>Pressed</string>
+			<key>KeyCode</key>
+			<integer>15</integer>
+			<key>MacroTriggerType</key>
+			<string>HotKey</string>
+			<key>Modifiers</key>
+			<integer>2560</integer>
+		</dict>
+		<dict>
+			<key>FireType</key>
+			<string>Pressed</string>
+			<key>KeyCode</key>
+			<integer>1</integer>
+			<key>MacroTriggerType</key>
+			<string>HotKey</string>
+			<key>Modifiers</key>
+			<integer>2560</integer>
+		</dict>
+	</array>
+	<key>UID</key>
+	<string>5CF337D3-D8E6-4CC1-AF8B-C3C543572503</string>
+</dict>
+</plist>

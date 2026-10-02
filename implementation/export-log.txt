@@ -1,0 +1,14 @@
+ 20260511_15:25 	/Users/tsukadjed/Library/CloudStorage/Dropbox/Automation/Workspace_organiser/implementation
+WORKSP_Prepare Session . |. 45D5BD67-4853-497C-9DA4-C9B03B89DD42
+✅ Exported: WORKSP_Prepare Session .kmmacros
+Old size: stat: /Users/tsukadjed/Library/CloudStorage/Dropbox/Automation/Workspace_organiser/implementation/WORKSP_Prepare Session .kmmacros: stat: No such file or directory
+0 bytes
+New size: 13182 bytes
+——————————————
+ 20261002_11:38 	/Users/tsukadjed/Library/CloudStorage/Dropbox/Automation/Workspace_organiser
+WORKSP_Move Window to workspace. | 5CF337D3-D8E6-4CC1-AF8B-C3C543572503 |groupUUID: 3B0B9AEB-510C-4A2D-8939-9B794FFAD7FBgroupName: __ [WORKSP] |.
+✅ Exported: WORKSP_Move Window to workspace.kmmacros
+Old size: stat: /Users/tsukadjed/Library/CloudStorage/Dropbox/Automation/Workspace_organiser/WORKSP_Move Window to workspace.kmmacros: stat: No such file or directory
+0 bytes
+New size: 19677 bytes
+——————————————
