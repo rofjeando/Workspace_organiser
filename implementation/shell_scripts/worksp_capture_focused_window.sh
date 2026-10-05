@@ -25,6 +25,19 @@ if [[ -z "$WIN_ID" ]]; then
   exit 1
 fi
 
+# Safety check: AeroSpace keeps reporting its last-known window when the app in front is
+# one it does not track (e.g. Perplexity, ai.perplexity.macv3). Never move that stale window.
+FRONT_ID=$(/usr/bin/osascript -e 'tell application "System Events" to get bundle identifier of first process whose frontmost is true' 2>/dev/null)
+AERO_ID=$($A list-windows --focused --format '%{app-bundle-id}' 2>/dev/null)
+if [[ -n "$FRONT_ID" && "$FRONT_ID" != "$AERO_ID" \
+      && "$FRONT_ID" != "com.stairways.keyboardmaestro.engine" ]]; then
+  FRONT_NAME=$(/usr/bin/osascript -e 'tell application "System Events" to get name of first process whose frontmost is true' 2>/dev/null)
+  echo "Not moved: $FRONT_NAME is in front, but AeroSpace thinks the focused window is"
+  echo "\"$APP_NAME | $WIN_TITLE\" (AeroSpace does not track $FRONT_NAME — $FRONT_ID)."
+  echo "Fix: quit and reopen $FRONT_NAME, then try again."
+  exit 1
+fi
+
 SHORT_TITLE="${WIN_TITLE//$'\r'/ }"
 [[ -z "$SHORT_TITLE" ]] && SHORT_TITLE="$APP_NAME"
 (( ${#SHORT_TITLE} > 42 )) && SHORT_TITLE="${SHORT_TITLE[1,39]}..."
