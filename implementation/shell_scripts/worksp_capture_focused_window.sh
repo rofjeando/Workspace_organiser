@@ -7,11 +7,21 @@
 A=/opt/homebrew/bin/aerospace
 
 # Title is last: read puts any remaining "|" from the title into WIN_TITLE.
-IFS='|' read -r WIN_ID SRC_WS APP_NAME WIN_TITLE <<< "$($A list-windows --focused \
-  --format '%{window-id}|%{workspace}|%{app-name}|%{window-title}' 2>/dev/null)"
+# Retry briefly: right after an app/workspace switch AeroSpace can report no focus yet.
+for attempt in 1 2 3 4 5; do
+  OUT=$($A list-windows --focused \
+    --format '%{window-id}|%{workspace}|%{app-name}|%{window-title}' 2>&1)
+  IFS='|' read -r WIN_ID SRC_WS APP_NAME WIN_TITLE <<< "$OUT"
+  [[ "$WIN_ID" == <-> && -n "$SRC_WS" ]] && break
+  WIN_ID=""
+  sleep 0.15
+done
 
-if [[ -z "$WIN_ID" || -z "$SRC_WS" ]]; then
-  echo "AeroSpace reported no focused window/workspace."
+if [[ -z "$WIN_ID" ]]; then
+  FRONT=$(/usr/bin/osascript -e 'tell application "System Events" to get name of first process whose frontmost is true' 2>/dev/null)
+  echo "AeroSpace sees no focused window (frontmost app: ${FRONT:-?}; workspace: $($A list-workspaces --focused 2>/dev/null))."
+  echo "AeroSpace said: $OUT"
+  echo "Click the window you want to move, then press the hot key again."
   exit 1
 fi
 
