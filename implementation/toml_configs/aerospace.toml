@@ -25,6 +25,10 @@ automatically-unhide-macos-hidden-apps = true
 
 # Mouse follows focus when monitor focus changes
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+# Also when focus moves by ⌘Tab / KM / clicks: keeps KM's conflict palette
+# (opens under the mouse) on the screen of the frontmost app. "lazy" = only
+# moves when the mouse is on another monitor.
+on-focus-changed = ['move-mouse monitor-lazy-center']
 
 
 # ─── Workspaces ───────────────────────────────────────────────────────────────
@@ -83,7 +87,13 @@ default-root-container-orientation = 'auto'
     if.app-id = 'com.stairways.keyboardmaestro.engine'
     run = 'layout floating'
 
-# — Typora scratchPad: float on current workspace (must be before the N rule) —
+# — Mail Colour Palette: keep it on Mail's workspace (B) instead of wherever it was opened from —
+[[on-window-detected]]
+    if.app-id = 'com.stairways.keyboardmaestro.engine'
+    if.window-title-regex-substring = 'Mail Colour Palette'
+    run = ['layout floating', 'move-node-to-workspace B']
+
+# — Typora scratchPad: float on current workspace —
 [[on-window-detected]]
     if.app-id = 'abnerworks.Typora'
     if.window-title-regex-substring = 'scratchPad_'
@@ -102,9 +112,7 @@ default-root-container-orientation = 'auto'
     if.app-id = 'com.druide.Antidote'
     run = 'move-node-to-workspace N'
 
-[[on-window-detected]]
-    if.app-id = 'abnerworks.Typora'
-    run = 'move-node-to-workspace N'
+# Typora: nomadic — use alt-shift-n to send to N when needed (scratchPad_ stays floating in current workspace)
 
 # Obsidian: nomadic — no fixed workspace
 
@@ -136,13 +144,37 @@ default-root-container-orientation = 'auto'
 # Quiver: nomadic — no fixed workspace
 
 # — P: Presentation (LG screen — Keynote + Affinity) —
-#[[on-window-detected]]
-#    if.app-id = 'com.apple.iWork.Keynote'
-#    run = 'move-node-to-workspace P'
+# — Keynote recovery after restart —
+# Quotes_lessons and Diagrams_lessons always go to K.
+# Any other Keynote window goes to U.
 
-#[[on-window-detected]]
-#    if.app-id = 'com.seriflabs.affinitydesigner2'
-#    run = 'move-node-to-workspace P'
+# — Keynote recovery after restart —
+[[on-window-detected]]
+    if.app-id = 'com.apple.Keynote'
+    if.window-title-regex-substring = 'Quotes_lessons'
+    run = 'move-node-to-workspace K'
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.Keynote'
+    if.window-title-regex-substring = 'Diagrams_lessons'
+    run = 'move-node-to-workspace K'
+
+# Keynote helper panels (Find & Replace, Text Colour, Fonts…) must open on the
+# CURRENT workspace, not be sent to U. First matching rule wins, so this sits
+# before the catch-all below and deliberately has no move-node-to-workspace.
+[[on-window-detected]]
+    if.app-id = 'com.apple.Keynote'
+    if.window-title-regex-substring = '^(Find & Replace|Text Colou?r|Colou?rs|Fonts|Spelling and Grammar|Replace|Find)$'
+    run = 'layout floating'
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.Keynote'
+    run = 'move-node-to-workspace U'
+
+
+[[on-window-detected]]
+    if.app-id = 'com.seriflabs.affinitydesigner2'
+    run = 'move-node-to-workspace P'
 
 # — S: Session-zoom (Elgato screen — Zoom only) —
 #[[on-window-detected]]
@@ -224,11 +256,11 @@ default-root-container-orientation = 'auto'
     alt-i = 'focus up'
     alt-l = 'focus right'
 
-    # Move window (vi-style)
-    alt-shift-h = 'move left'
-    alt-shift-j = 'move down'
-    alt-shift-i = 'move up'
-    alt-shift-l = 'move right'
+    # Move window (arrows)
+    alt-shift-left = 'move left'
+    alt-shift-down = 'move down'
+    alt-shift-up = 'move up'
+    alt-shift-right = 'move right'
 
     # Resize
     #alt-minus = 'resize smart -50'
@@ -292,21 +324,21 @@ default-root-container-orientation = 'auto'
     # Move window to workspace
     #alt-shift-f = 'layout floating tiling'       # Toggle float/tile
 
-alt-shift-q = 'move-node-to-workspace --focus-follows-window A'   # AZERTY: press key labeled 'a'
-alt-shift-b = 'move-node-to-workspace --focus-follows-window B'
-alt-shift-c = 'move-node-to-workspace --focus-follows-window C'
-alt-shift-d = 'move-node-to-workspace --focus-follows-window D'
-alt-shift-e = 'move-node-to-workspace --focus-follows-window E'
-alt-shift-g = 'move-node-to-workspace --focus-follows-window G'
-alt-shift-n = 'move-node-to-workspace --focus-follows-window N'
-alt-shift-o = 'move-node-to-workspace --focus-follows-window O'
-alt-shift-p = 'move-node-to-workspace --focus-follows-window P'
-alt-shift-r = 'move-node-to-workspace --focus-follows-window R'
-alt-shift-s = 'move-node-to-workspace --focus-follows-window S'
+#alt-shift-q = 'move-node-to-workspace --focus-follows-window A'   # AZERTY: press key labeled 'a'
+#alt-shift-b = 'move-node-to-workspace --focus-follows-window B'
+#alt-shift-c = 'move-node-to-workspace --focus-follows-window C'
+#alt-shift-d = 'move-node-to-workspace --focus-follows-window D'
+#alt-shift-e = 'move-node-to-workspace --focus-follows-window E'
+#alt-shift-g = 'move-node-to-workspace --focus-follows-window G'
+#alt-shift-n = 'move-node-to-workspace --focus-follows-window N'
+#alt-shift-o = 'move-node-to-workspace --focus-follows-window O'
+#alt-shift-p = 'move-node-to-workspace --focus-follows-window P'
+#alt-shift-r = 'move-node-to-workspace --focus-follows-window R'
+#alt-shift-s = 'move-node-to-workspace --focus-follows-window S'
 #alt-shift-t = 'move-node-to-workspace --focus-follows-window T'
-alt-shift-u = 'move-node-to-workspace --focus-follows-window U'
-alt-shift-v = 'move-node-to-workspace --focus-follows-window V'
-alt-shift-k = 'move-node-to-workspace --focus-follows-window K'
+#alt-shift-u = 'move-node-to-workspace --focus-follows-window U'
+#alt-shift-v = 'move-node-to-workspace --focus-follows-window V'
+#alt-shift-k = 'move-node-to-workspace --focus-follows-window K'
 
     # Workspace navigation
     alt-tab       = 'workspace-back-and-forth'
