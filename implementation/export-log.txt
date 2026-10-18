@@ -54,3 +54,10 @@ Old size: stat: /Users/tsukadjed/Library/CloudStorage/Dropbox/Automation/Workspa
 New size: stat: /Users/tsukadjed/Library/CloudStorage/Dropbox/Automation/Workspace_organiser/implementation//WORKSP_Window Palette (unfloat / side by side).kmmacros: stat: No such file or directory
 0 bytes
 ——————————————
+ 20261018_16:30 	/Users/tsukadjed/Library/CloudStorage/Dropbox/Automation/Workspace_organiser/implementation/
+WORKSP_Gather to W. | 783EDAD9-F11C-4785-A029-686BA60DCBC1 |groupUUID: 3B0B9AEB-510C-4A2D-8939-9B794FFAD7FBgroupName: __ [WORKSP] |.
+✅ Exported: WORKSP_Gather to W.kmmacros
+Old size: stat: /Users/tsukadjed/Library/CloudStorage/Dropbox/Automation/Workspace_organiser/implementation//WORKSP_Gather to W.kmmacros: stat: No such file or directory
+0 bytes
+New size: 3109 bytes
+——————————————
