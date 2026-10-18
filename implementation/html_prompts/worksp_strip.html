@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>WORKSP Strip</title>
+<!-- Permanent narrow strip (asynchronous Custom HTML Prompt). KMWindow stays alone in <head>.
+     Screen: KM variable WORKSP_paletteScreen (Main / Internal / screen name), default Internal. -->
+<script>
+function KMWindow() {
+  var W = 84, H = 640, left = 40, top = 40;
+  try {
+    var km = window.KeyboardMaestro;
+    var screen = km.GetVariable('WORKSP_paletteScreen') || 'Internal';
+    var r = Number(km.Calculate('SCREENVISIBLE(' + screen + ',Right)'));
+    var t = Number(km.Calculate('SCREENVISIBLE(' + screen + ',Top)'));
+    var h = Number(km.Calculate('SCREENVISIBLE(' + screen + ',Height)'));
+    if (r > 0) { left = r - W - 6; top = t + 8; }
+    if (h > 0) { H = Math.min(H, h - 16); }
+  } catch (e) { }
+  return left + ', ' + top + ', ' + W + ', ' + H;
+}
+</script>
+<style>
+:root { --bg:rgba(246,246,248,.95); --fg:#1d1d1f; --mute:#6e6e73; --line:rgba(0,0,0,.12); --hover:rgba(10,100,214,.14); --acc:#0a64d6; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg:rgba(38,38,41,.95); --fg:#f2f2f4; --mute:#a0a0a6; --line:rgba(255,255,255,.14); --hover:rgba(80,150,245,.25); --acc:#5aa0f5; }
+}
+* { box-sizing:border-box; -webkit-user-select:none; }
+html, body { margin:0; background:transparent; }
+body { font:10px -apple-system, "SF Pro Text", sans-serif; color:var(--fg); }
+.strip { margin:2px; height:calc(100vh - 4px); background:var(--bg); border:1px solid var(--line); border-radius:14px;
+         display:flex; flex-direction:column; padding:6px 4px; overflow:hidden; }
+.sep { height:1px; background:var(--line); margin:5px 8px; flex:none; }
+button { flex:none; display:flex; flex-direction:column; align-items:center; gap:3px; padding:6px 0 5px; margin:1px 0;
+         border:0; border-radius:9px; background:transparent; color:var(--fg); font:inherit; cursor:default; }
+button svg { width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+button:hover { background:var(--hover); }
+button:active, button.flash { background:var(--acc); color:#fff; }
+button:focus-visible { outline:2px solid var(--acc); }
+button.w svg { stroke:var(--acc); }
+button.w:active svg, button.w.flash svg { stroke:#fff; }
+.grow { flex:1; }
+#status { text-align:center; color:var(--mute); font-size:9px; min-height:12px; padding-bottom:2px; }
+</style>
+</head>
+<body>
+<div class="strip">
+  <button data-act="sidebyside" title="Flatten and tile side by side (alt-shift-t)">
+    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="8" height="16" rx="1.5"/><rect x="13" y="4" width="8" height="16" rx="1.5"/></svg>Side by side</button>
+  <button data-act="stacked" title="Flatten and stack top to bottom">
+    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/></svg>Stacked</button>
+  <button data-act="tabs" title="Accordion: one window in front, others peek out">
+    <svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="1.5"/><path d="M6 4h6M15 4h3"/></svg>Tabs</button>
+  <button data-act="balance" title="Equal sizes">
+    <svg viewBox="0 0 24 24"><path d="M3 12h18M7 8l-4 4 4 4M17 8l4 4-4 4"/></svg>Balance</button>
+  <div class="sep"></div>
+  <button data-macro="palette" title="Choose floating windows to tile">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="12" height="12" rx="1.5"/><rect x="9" y="9" width="12" height="12" rx="1.5"/></svg>Unfloat…</button>
+  <div class="sep"></div>
+  <button data-macro="gather" class="w" title="Pick windows to send to W (Work in progress)">
+    <svg viewBox="0 0 24 24"><path d="M12 3v10M8 9l4 4 4-4M4 15v5h16v-5"/></svg>Gather to W</button>
+  <button data-act="gotow" class="w" title="Go to workspace W (alt-z)">
+    <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Go to W</button>
+  <button data-act="back" title="Back to the previous workspace (alt-tab)">
+    <svg viewBox="0 0 24 24"><path d="M9 7L4 12l5 5M4 12h11a5 5 0 0 1 0 8h-3"/></svg>Back</button>
+  <div class="sep"></div>
+  <button data-act="reload" title="Reload aerospace.toml">
+    <svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.5-5.8M20 4v5h-5"/></svg>Reload</button>
+  <div class="grow"></div>
+  <div id="status"></div>
+  <button id="bClose" title="Close the strip (esc)">
+    <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>Close</button>
+</div>
+<script>
+(function () {
+  var km = window.KeyboardMaestro;
+  // Macro UIDs (Trigger by UID survives renames). Keep in sync with WORKSP_Strip macros.
+  var ACTION_UID = 'C2F91351-52B1-4E64-B9BC-FF92FB321ADB';   // WORKSP_Strip Action
+  var MACROS = {
+    palette: 'F39F44BF-0355-4166-B3C5-B4F248D3727E',          // WORKSP_Window Palette (unfloat / side by side)
+    gather:  '783EDAD9-F11C-4785-A029-686BA60DCBC1'           // WORKSP_Gather to W
+  };
+  var statusEl = document.getElementById('status'), timer = null;
+
+  function say(msg) {
+    statusEl.textContent = msg;
+    if (timer) { clearTimeout(timer); }
+    timer = setTimeout(function () { statusEl.textContent = ''; }, 1500);
+  }
+
+  var buttons = document.querySelectorAll('button[data-act], button[data-macro]');
+  for (var i = 0; i < buttons.length; i++) {
+    (function (b) {
+      b.addEventListener('click', function () {
+        b.classList.add('flash');
+        setTimeout(function () { b.classList.remove('flash'); }, 250);
+        try {
+          if (b.getAttribute('data-macro')) { km.Trigger(MACROS[b.getAttribute('data-macro')]); }
+          else { km.Trigger(ACTION_UID, b.getAttribute('data-act')); }
+          say('sent');
+        } catch (e) { say('error'); }
+      });
+    })(buttons[i]);
+  }
+  document.getElementById('bClose').addEventListener('click', function () { km.Cancel(); });
+  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') { km.Cancel(); } });
+})();
+</script>
+</body>
+</html>

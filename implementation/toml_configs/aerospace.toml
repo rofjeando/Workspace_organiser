@@ -35,8 +35,9 @@ on-focus-changed = ['move-mouse monitor-lazy-center']
 
 # Keep these workspaces alive even when empty
 # Customise this list to your personal workflow
-persistent-workspaces = ["N", "A", "K", "P", "S", "B", "R", "O", "D", "U"]
+persistent-workspaces = ["N", "A", "K", "P", "S", "B", "R", "O", "D", "U", "W"]
 # N=Notes  A=Automation  P=Presentation  S=Session-zoom  B=Booking  R=Reading  O=sOund  D=Desktop(MacBook)
+# W=Work in progress (hand-picked windows, filled from the [WORKSP] strip's Gather button)
 
 # Callback when binding mode changes (useful for status bar integration)
 on-mode-changed = []
@@ -51,8 +52,9 @@ accordion-padding = 30
 # 'tiles' = classic tiling | 'accordion' = stacked/tabbed
 default-root-container-layout = 'tiles'
 
-# 'auto' = wide monitor → horizontal, tall monitor → vertical
-default-root-container-orientation = 'auto'
+# 'horizontal' = side by side. Was 'auto', which can pick vertical at boot
+# while monitors are still being detected.
+default-root-container-orientation = 'horizontal'
 
 # ─── Key Mapping ──────────────────────────────────────────────────────────────
 
@@ -228,6 +230,7 @@ default-root-container-orientation = 'auto'
     U = 'LG HDR WQHD'
     D = 'Built-in Retina Display'  # MacBook screen
     K = 'LG HDR WQHD' #LG HDR WQHD (your monitor index for LG)
+    W = 'LG HDR WQHD'              # Work in progress
 
 # ─── Main Binding Mode ────────────────────────────────────────────────────────
 
@@ -244,6 +247,7 @@ default-root-container-orientation = 'auto'
 	
 	# Layout toggles and window state (action cluster)
 	alt-t        = 'layout tiles horizontal vertical'   # T = Tiling orientation
+	alt-shift-t  = ['flatten-workspace-tree', 'layout tiles horizontal']  # Restore side-by-side tiling
 	alt-shift-f  = 'layout floating tiling'            # F = Float / tile toggle (already present)
 
 	# Resize (Bigger / Compress)
@@ -319,6 +323,7 @@ default-root-container-orientation = 'auto'
     alt-u = 'workspace U'
     #alt-v = 'workspace V'
     alt-k = 'workspace K'
+    alt-z = 'workspace W'   # AZERTY: press key labeled 'w' (Work in progress)
 
 
     # Move window to workspace
@@ -339,6 +344,7 @@ default-root-container-orientation = 'auto'
 #alt-shift-u = 'move-node-to-workspace --focus-follows-window U'
 #alt-shift-v = 'move-node-to-workspace --focus-follows-window V'
 #alt-shift-k = 'move-node-to-workspace --focus-follows-window K'
+alt-shift-z = 'move-node-to-workspace --focus-follows-window W'   # AZERTY: key labeled 'w'
 
     # Workspace navigation
     alt-tab       = 'workspace-back-and-forth'

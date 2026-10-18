@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Actions</key>
+	<array>
+		<dict>
+			<key>ActionUID</key>
+			<integer>882002</integer>
+			<key>MacroActionType</key>
+			<string>SetVariableToText</string>
+			<key>Text</key>
+			<string>%TriggerValue%</string>
+			<key>Variable</key>
+			<string>WORKSP_stripAction</string>
+		</dict>
+		<dict>
+			<key>ActionUID</key>
+			<integer>882003</integer>
+			<key>DisplayKind</key>
+			<string>Briefly</string>
+			<key>HonourFailureSettings</key>
+			<true/>
+			<key>IncludeStdErr</key>
+			<false/>
+			<key>IncludedVariables</key>
+			<array>
+				<string>9999</string>
+			</array>
+			<key>MacroActionType</key>
+			<string>ExecuteShellScript</string>
+			<key>Path</key>
+			<string>/Users/tsukadjed/Library/CloudStorage/Dropbox/Automation/Workspace_organiser/implementation/shell_scripts/worksp_strip_action.sh</string>
+			<key>Source</key>
+			<string>Nothing</string>
+			<key>Text</key>
+			<string></string>
+			<key>TimeOutAbortsMacro</key>
+			<true/>
+			<key>TrimResults</key>
+			<true/>
+			<key>TrimResultsNew</key>
+			<true/>
+			<key>UseText</key>
+			<false/>
+		</dict>
+	</array>
+	<key>CreationDate</key>
+	<real>814025705.15788293</real>
+	<key>CustomIconData</key>
+	<string>KMEP-GenericApplication-/Applications/AeroSpace.app</string>
+	<key>ModificationDate</key>
+	<real>814025927.62172103</real>
+	<key>Name</key>
+	<string>WORKSP_Strip Action</string>
+	<key>Triggers</key>
+	<array/>
+	<key>UID</key>
+	<string>C2F91351-52B1-4E64-B9BC-FF92FB321ADB</string>
+</dict>
+</plist>

@@ -19,3 +19,38 @@ Old size: stat: /Users/tsukadjed/Library/CloudStorage/Dropbox/Automation/Workspa
 0 bytes
 New size: 13168 bytes
 ——————————————
+ 20261008_20:21 	/Users/tsukadjed/Library/CloudStorage/Dropbox/Automation/Workspace_organiser/implementation/
+[SDECK] Open any Profile. | 93A26919-0C4F-429D-ADC8-1EC14D46B2CD |groupUUID: 4B5F615F-E561-4C4C-ACE0-FB60AC8EF7F1groupName: _[DEC] Stream Deck |.
+✅ Exported: [SDECK] Open any Profile.kmmacros
+Old size: stat: /Users/tsukadjed/Library/CloudStorage/Dropbox/Automation/Workspace_organiser/implementation//[SDECK] Open any Profile.kmmacros: stat: No such file or directory
+0 bytes
+New size: 3350 bytes
+——————————————
+ 20261018_16:23 	/Users/tsukadjed/Library/CloudStorage/Dropbox/Automation/Workspace_organiser/implementation/
+WORKSP_Move Window to workspace v1.1. | 1FEFBA96-FE08-43C6-84A0-8352B99DB063 |groupUUID: 3B0B9AEB-510C-4A2D-8939-9B794FFAD7FBgroupName: __ [WORKSP] |.
+✅ Exported: WORKSP_Move Window to workspace v1.1.kmmacros
+Old size: 13168 bytes
+New size: 13864 bytes
+——————————————
+20261018_16:23 	/Users/tsukadjed/Library/CloudStorage/Dropbox/Automation/Workspace_organiser/implementation/
+WORKSP_Strip (permanent button strip). | 3FC8984A-B08D-4953-9DA6-A55F2E1B3452 |groupUUID: 3B0B9AEB-510C-4A2D-8939-9B794FFAD7FBgroupName: __ [WORKSP] |.
+✅ Exported: WORKSP_Strip (permanent button strip).kmmacros
+Old size: stat: /Users/tsukadjed/Library/CloudStorage/Dropbox/Automation/Workspace_organiser/implementation//WORKSP_Strip (permanent button strip).kmmacros: stat: No such file or directory
+0 bytes
+New size: 2957 bytes
+——————————————
+20261018_16:23 	/Users/tsukadjed/Library/CloudStorage/Dropbox/Automation/Workspace_organiser/implementation/
+WORKSP_Strip Action. | C2F91351-52B1-4E64-B9BC-FF92FB321ADB |groupUUID: 3B0B9AEB-510C-4A2D-8939-9B794FFAD7FBgroupName: __ [WORKSP] |.
+✅ Exported: WORKSP_Strip Action.kmmacros
+Old size: stat: /Users/tsukadjed/Library/CloudStorage/Dropbox/Automation/Workspace_organiser/implementation//WORKSP_Strip Action.kmmacros: stat: No such file or directory
+0 bytes
+New size: 1631 bytes
+——————————————
+20261018_16:23 	/Users/tsukadjed/Library/CloudStorage/Dropbox/Automation/Workspace_organiser/implementation/
+WORKSP_Window Palette (unfloat / side by side). | F39F44BF-0355-4166-B3C5-B4F248D3727E |groupUUID: 3B0B9AEB-510C-4A2D-8939-9B794FFAD7FBgroupName: __ [WORKSP] |.
+✅ Exported: WORKSP_Window Palette (unfloat / side by side).kmmacros
+Old size: stat: /Users/tsukadjed/Library/CloudStorage/Dropbox/Automation/Workspace_organiser/implementation//WORKSP_Window Palette (unfloat / side by side).kmmacros: stat: No such file or directory
+0 bytes
+New size: stat: /Users/tsukadjed/Library/CloudStorage/Dropbox/Automation/Workspace_organiser/implementation//WORKSP_Window Palette (unfloat / side by side).kmmacros: stat: No such file or directory
+0 bytes
+——————————————
